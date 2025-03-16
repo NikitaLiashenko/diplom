@@ -1,0 +1,20 @@
+.react-time-picker .react-time-picker__wrapper {
+    /* display: flex; */
+    width: 100%;
+}
+
+.react-time-picker input {
+    width: 20px !important;
+    background-color: transparent;
+
+}
+
+.react-time-picker input {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+.react-time-picker .react-time-picker__inputGroup__divider {
+    margin-right: 4px;
+    font-weight: 600;
+}

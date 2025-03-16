@@ -1,0 +1,103 @@
+// prisma/schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                     String    @id @default(cuid())
+  name                   String?
+  email                  String?   @unique
+  emailVerified          DateTime? @map("email_verified")
+  openaiRequestsCheckDay DateTime? @map("openai_requests_check_day")
+  openaiRequestsToday    Int?      @map("openai_requests_today")
+  image                  String?
+  password               String?
+  weight                 Float?
+  height                 Float?
+  gender                 Gender?
+  birthDate              DateTime? @map("birth_date")
+  activityLevel          Float?    @map("activity_level")
+  goal                   Goal?
+  accounts               Account[]
+  meals                  Meal[]
+  weights                Weight[]
+
+  @@map("users")
+}
+
+enum Gender {
+  male
+  female
+}
+
+enum Goal {
+  lose
+  maintain
+  gain
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+  @@map("password-reset-token")
+}
+
+model Meal {
+  id            String   @id @default(cuid())
+  name          String
+  weight        Float
+  date          DateTime
+  calories      Float
+  proteins      Float
+  fats          Float
+  carbohydrates Float
+  userId        String   @map("user_id")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([date])
+}
+
+model Weight {
+  id                  String   @id @default(cuid())
+  date                DateTime
+  weight              Float
+  caloriesIntake      Float    @map("calories_intake")
+  proteinsIntake      Float    @map("proteins_intake")
+  fatsIntake          Float    @map("fats_intake")
+  carbohydratesIntake Float    @map("carbohydrates_intake")
+  userId              String   @map("user_id")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([date])
+}

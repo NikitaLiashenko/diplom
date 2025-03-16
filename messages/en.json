@@ -1,0 +1,419 @@
+{
+  "Common": {
+    "title": "Weight tracking app",
+    "description": "We need to write description here",
+    "gram": "gram",
+    "gramShort": "g",
+    "kcal": "kcal",
+    "kg": "kg"
+  },
+  "Modals": {
+    "Alert": {
+      "title": "Are you sure?",
+      "description": "This action cannot be undone!",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    }
+  },
+  "Enum": {
+    "gender": {
+      "label": "Gender",
+      "male": "Male",
+      "female": "Female"
+    },
+    "activityLevel": {
+      "label": "Activity level",
+      "description": "Rate your activity level for the week. This value can always be changed",
+      "1-2": "Minimal activity (sedentary lifestyle)",
+      "1-375": "Light activity (1-3 workouts per week)",
+      "1-55": "Average activity (3-5 workouts per week)",
+      "1-725": "High activity (6-7 workouts per week)",
+      "1-9": "Very high activity (athletes, physical work)",
+      "1-2-short": "Minimal activity",
+      "1-375-short": "Light activity",
+      "1-55-short": "Average activity",
+      "1-725-short": "High activity",
+      "1-9-short": "Very high activity"
+    },
+    "goal": {
+      "label": "Goal",
+      "description": "Your purpose for using this application. This value can always be changed",
+      "lose": "I want to lose my weight",
+      "maintain": "I want to maintain my weight",
+      "gain": "I want to gain my weight",
+      "lose-short": "Lose my weight",
+      "maintain-short": "Maintain my weight",
+      "gain-short": "Gain my weight"
+    }
+  },
+  "Validation": {
+    "Meal": {
+      "name": {
+        "required": "Meal name is required and cannot be empty."
+      },
+      "weight": {
+        "positive": "Weight must be a positive number.",
+        "required": "Meal weight is required."
+      },
+      "time": {
+        "format": "Invalid time format. Please use HH:mm.",
+        "required": "Time is required."
+      },
+      "avgCalories": {
+        "positive": "Calories must be a positive number.",
+        "required": "Caloric value is required."
+      },
+      "proteins": {
+        "positive": "Protein content must be a positive number.",
+        "required": "Protein amount is required."
+      },
+      "fats": {
+        "positive": "Fat content must be a positive number.",
+        "required": "Fat amount is required."
+      },
+      "carbohydrates": {
+        "positive": "Carbohydrate content must be a positive number.",
+        "required": "Carbohydrate amount is required."
+      }
+    },
+    "Login": {
+      "email": {
+        "required": "Email is required"
+      },
+      "password": {
+        "required": "Password is required"
+      }
+    },
+    "Register": {
+      "email": {
+        "required": "Email is required"
+      },
+      "password": {
+        "required": "Minimum 6 characters required",
+        "min": "Minimum 6 characters required"
+      },
+      "name": {
+        "required": "Name is required"
+      }
+    },
+    "UpdateProfile": {
+      "email": {
+        "required": "Email is required"
+      },
+      "password": {
+        "required": "Minimum 6 characters required"
+      },
+      "name": {
+        "required": "Name is required"
+      },
+      "weight": {
+        "required": "Weight is required",
+        "positive": "Weight must be a positive number"
+      },
+      "height": {
+        "required": "Height is required",
+        "positive": "Height must be a positive number"
+      },
+      "gender": {
+        "required": "Gender is required"
+      },
+      "birthDate": {
+        "invalidFormat": "Invalid date format",
+        "required": "Birth Date is required"
+      },
+      "activityLevel": {
+        "required": "Activity level is required",
+        "positive": "Activity level must be a positive number"
+      },
+      "goal": {
+        "required": "Goal level is required"
+      }
+    },
+    "NewPassword": {
+      "password": {
+        "min": "Minimum of 6 characters required"
+      }
+    },
+    "Reset": {
+      "email": {
+        "required": "Email is required"
+      }
+    },
+    "MealFullInfo": {
+      "time": {
+        "format": "Invalid time format. Use HH:mm"
+      },
+      "avgCalories": {
+        "required": "Calories are required",
+        "positive": "Calories must be a positive number"
+      },
+      "proteins": {
+        "required": "Proteins are required",
+        "positive": "Proteins must be a positive number"
+      },
+      "fats": {
+        "required": "Fats are required",
+        "positive": "Fats must be a positive number"
+      },
+      "carbohydrates": {
+        "required": "Carbohydrates are required",
+        "positive": "Carbohydrates must be a positive number"
+      }
+    }
+  },
+  "Error": {
+    "userNotAuthorized": "User not authenticated",
+    "notFound": "Not found",
+    "validation": "Invalid form",
+    "forbidden": "Forbidden",
+    "credentials": "Invalid credentials",
+    "unknownError": "Something went wrong!",
+    "requestLimit": "You have reached predictions limit per day. Now you need to enter calories infomation manually or try tomorrow",
+    "unknownMeal": "Can't predict calories because the meal is unknown",
+    "calculateCalories": "Error appeared during calories calculation: ",
+    "invalidToken": "Invalid token",
+    "expiredToken": "Token has expired!",
+    "missingToken": "Missing token!",
+    "emailNotFound": "User by this email doesn't exists",
+    "emailInUseServer": "User already exists: ",
+    "emailInUseClient": "Something went wrong. Try again later",
+    "noSession": "No session"
+  },
+  "OpenAI": {
+    "SystemMessage": "You are a nutrition expert. Your task is to estimate the calorie content of a dish based on its name and weight in grams. Give the minimum, maximum and average calorie value, as well as the approximate amount of proteins, fats, carbohydrates. Also explain what the range of these indicators depends on. If you do not know the dish - write that the dish is unknown, and do not try to predict it",
+    "UserPromt": "Calculate the calorie content and approximate amount of proteins, fats, carbohydrates of the dish ':mealName', which weighs approximately :weight grams."
+  },
+  "HomePage": {
+    "title": "Auth",
+    "description": "A simple authentication login",
+    "NavLinks": {
+      "home": "Home",
+      "about": "About",
+      "possibilities": "Possibilities",
+      "skills": "Skills"
+    },
+    "Nav": {
+      "logoTitle": "NutriTrack",
+      "en": "English",
+      "uk": "Ukrainian",
+      "language": "Language"
+    },
+    "PossibilitiesList": {
+      "title_id1": "Charts",
+      "description_id1": "Beautiful and useful charts with data of weight, proteins, fats and carbohydrates",
+      "title_id2": "Calendar",
+      "description_id2": "This calendar shows your statistic of eating proteins, fats and carbohydrates",
+      "title_id3": "Meal",
+      "description_id3": "You can enter your food and connected api shows amount of calories",
+      "title_id4": "Target",
+      "description_id4": "You select target of your body and achive your plan"
+    },
+    "TechnologiesList": {
+      "react": "React",
+      "css": "Css",
+      "js": "Js",
+      "ts": "Ts",
+      "html": "Html",
+      "tailwind": "Tailwind",
+      "node": "Node",
+      "nextjs": "Next.js"
+    },
+    "Hero": {
+      "subHeading": "Weight Tracker",
+      "title": "Take Control of Your Nutrition & Health!",
+      "description": "NutriTrack helps you effortlessly track your meals, calories, and progress. Set goals, get insights, and stay on top of your health with smart automation.",
+      "button": "Try Now for Free"
+    },
+    "About": {
+      "title": "About Project",
+      "subTitle": "Your Smart Companion for a Healthier Life",
+      "pText": "NutriTrack is designed to make nutrition tracking simple and effective. Whether you're aiming to lose weight, gain muscle, or maintain a balanced diet, our intelligent system helps you stay on track with accurate meal analysis, calorie counting, and progress insights.",
+      "features": {
+        "first": "Free access",
+        "second": "User-friendly interface",
+        "third": "PFC counting"
+      }
+    },
+    "Possibilities": {
+      "title": "Possibilities"
+    },
+    "Technology": {
+      "title": "Technologies"
+    }
+  },
+  "ResetPage": {
+    "metaTitle": "Reset",
+    "metaDescription": "Reset password",
+    "successMessage": "Reset email sent!"
+  },
+  "LoginPage": {
+    "headerLabel": "Welcome back!",
+    "headerDescription": "Login to existing account",
+    "backButtonLabel": "Don't have an account",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "forgotPassword": "Forgot Password?",
+    "buttonLogin": "Login",
+    "metaTitle": "Login",
+    "metaDescription": "Login to your account",
+    "Social": {
+      "google": "Continue with google"
+    }
+  },
+  "RegisterPage": {
+    "headerLabel": "Welcome!",
+    "headerDescription": "Create an account",
+    "backButtonLabel": "Already have an accound?",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "continueButtonLabel": "Continue",
+    "backButtonLabel2": "Back",
+    "createAnAccountButtonLabel": "Create an account",
+    "metaTitle": "Register",
+    "metaDescription": "Register your account",
+    "successMessage": "User created!"
+  },
+  "FillProfilePage": {
+    "headerLabel": "Complete profile information",
+    "headerDescription": "We will use your details only for your calculations",
+    "weightLabel": "Weight (kg)",
+    "weightDescription": "Your current weight will be used to calculate your daily food intake. You can enter your weight daily to track your progress.",
+    "heightLabel": "Height (cm)",
+    "heightDescription": "The height will be used to calculate the daily food intake.",
+    "birthDate": "Date of birth",
+    "pickDate": "Pick a date",
+    "descriptionDate": "Your date of birth is used to calculate your age.",
+    "continueButton": "Continue",
+    "backButton": "Back",
+    "saveButtonLabel": "Save",
+    "backToLoginButton": "Back to login",
+    "metaTitle": "Fill profile",
+    "metaDescription": "Fill your profile data",
+    "successMessage": "Profile updated!"
+  },
+  "NewPasswordPage": {
+    "headerLabel": "Enter a new password",
+    "headerDescription": "",
+    "backButtonLabel": "Back to login",
+    "passwordLabel": "Password",
+    "resetPasswordButtonLabel": "Reset password",
+    "metaTitle": "New passwrod",
+    "metaDescription": "Set new password",
+    "successMessage": "Password updated!"
+  },
+  "ResetFormPage": {
+    "headerLabel": "Forgot your password?",
+    "headerDescription": "",
+    "backButtonLabel": "Back to login",
+    "emailLabel": "Email",
+    "sendResetEmailButtonLabel": "Send reset email"
+  },
+  "ProfilePage": {
+    "birthDateLabel": "Birth date",
+    "descriptionDate": "Your date of birth is used to calculate your age.",
+    "heightLabel": "Height (cm)",
+    "years": "Years",
+    "editMode": "Edit mode",
+    "metaTitle": "Profile",
+    "metaDescription": "Your profile",
+    "caloriesLabel": "Calories",
+    "caloriesPerDay": "kcal/day",
+    "saveButton": "Save changes",
+    "resetButton": "Discard changes",
+    "resetPasswordButton": "Reset password",
+    "successOperation": "User infomation saved successfully",
+    "logout": "Log out"
+  },
+  "WeightPage": {
+    "WeightChart": {
+      "startWeight": "Start weight",
+      "title": "Weight dynamics"
+    },
+    "CurrentWeight": {
+      "currentWeight": "Current weight",
+      "startWeight": "Start weight",
+      "lastWeighin": "The last weigh-in was ",
+      "AddWeightModal": {
+        "triggerButtonAdd": "Add weighing",
+        "triggerButtonEdit": "Edit weighing",
+        "successOperation": "Weight successfully saved",
+        "title": "Log Your Weight Today",
+        "description": "Track your progress by entering your current weight. Consistency is key!",
+        "saveButtonLabel": "Save",
+        "weightLabel": "Weight (kg)",
+        "weightDescription": "Enter your weight in kilograms (kg) for accurate tracking and insights."
+      }
+    }
+  },
+  "Languages": {
+    "label": "Language",
+    "en": "English",
+    "uk": "Ukrainian"
+  },
+  "ErrorCardPage": {
+    "headerLabel": "Oops! Something went wrong!",
+    "headerDescription": "Error error error",
+    "backButtonLabel": "Back to login",
+    "metaTitle": "Error",
+    "metaDescription": "Error"
+  },
+  "NavBar": {
+    "meals": "Meals",
+    "weight": "Weight",
+    "profile": "Profile"
+  },
+  "AddMealDialog": {
+    "addMealButtonLabel": "Add meal"
+  },
+  "MealForm": {
+    "dialogTitle": "Log Your Meal",
+    "dialogDescription": "Enter your meal details, and we'll calculate the calories for you. Be specific with the name and include key ingredients for better accuracy.",
+    "mealNameLabel": "Meal name",
+    "mealNameDescription": "Enter the exact meal name with key ingredients for accurate calorie estimation.",
+    "mealWeightLabel": "Meal weight",
+    "mealWeightDescription": "Specify the meal's weight in grams for precise calculations.",
+    "placeHolder": "Cesar with chiken",
+    "continueButtonLabel": "Continue"
+  },
+  "MealFullInfoForm": {
+    "dialogTitle": "Confirm Your Meal",
+    "caloriesLabel": "Calories",
+    "caloriesDescription": "In parentheses is the possible range from the min to the max value.",
+    "carbohydratesLabel": "Carbohydrates",
+    "fatsLabel": "Fats",
+    "proteinsLabel": "Proteins",
+    "timeLabel": "Time",
+    "timeDescription": "Specify the time of this meal.",
+    "backButtonLabel": "Back",
+    "saveButtonLabel": "Confirm & Save"
+  },
+  "MealsCalendar": {
+    "Legend": {
+      "calendarLegend": "What do the colors mean?",
+      "noInformation": "No meal data available for this day.",
+      "moreCalories": "Calorie intake is either too low or too high.",
+      "enoughCalories": "Calorie intake is within the target range."
+    },
+    "Day": {
+      "noInfo": "No meal data available for this day.",
+      "mealsCount": "Meals logged: :mealsCount ",
+      "totalCalories": "Total calories: :totalCalories "
+    }
+  },
+  "MealPage": {
+    "todayMeals": "Meals for :today",
+    "totalCalories": "Total calories for :today",
+    "metaTitle": "Meals",
+    "metaDescription": "Set your meals",
+    "calories": "Calories",
+    "fats": "Fats",
+    "proteins": "Proteins",
+    "carbohydrates": "Carbohydrates"
+  },
+  "SettingsPage": {
+    "signOutButtonLabel": "Sign out",
+    "metaTitle": "Settings",
+    "metaDescription": "Settings of account"
+  }
+}
