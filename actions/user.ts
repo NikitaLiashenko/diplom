@@ -66,30 +66,37 @@ export const editUserProfile = async (values: EditUserProfileSchemaType) => {
 
     const editUserProfilSchemaValid = EditUserProfileSchema.safeParse(values);
 
-    if (!editUserProfilSchemaValid.success) {
-        console.error(editUserProfilSchemaValid.error.format());
-        throw new ValidationError(locale, messages);
-    }
-
-    await db.user.updateMany({
-        where: {
-            id: user.id
-        },
-        data: {
-            ...editUserProfilSchemaValid.data
+    try {
+        if (!editUserProfilSchemaValid.success) {
+            console.error(editUserProfilSchemaValid.error.format());
+            throw new ValidationError(locale, messages);
         }
-    });
 
-    if (isBodyStatsFilled(user)) {
-        createOrUpdateWeightRecord({
-            ...editUserProfilSchemaValid.data,
-            weight: user.weight!
+        await db.user.updateMany({
+            where: {
+                id: user.id
+            },
+            data: {
+                ...editUserProfilSchemaValid.data
+            }
         });
+
+        if (isBodyStatsFilled(user)) {
+            createOrUpdateWeightRecord({
+                ...editUserProfilSchemaValid.data,
+                weight: user.weight!
+            });
+        }
+
+        const updatedUser = await updateUserInSession(values);
+
+        return { updatedUser, success: t("FillProfilePage.successMessage") };
+    } catch (error) {
+        if (error instanceof Error) {
+            return { error: error.message as string };
+        }
+        return { error: t("Error.unknownError") as string };
     }
-
-    const updatedUser = await updateUserInSession(values);
-
-    return { updatedUser, success: t("FillProfilePage.successMessage") };
 }
 
 export const addUserWeight = async (values: AddUserWeightSchemaType) => {
@@ -100,31 +107,38 @@ export const addUserWeight = async (values: AddUserWeightSchemaType) => {
 
     const addUserWeightSchemaValid = AddUserWeightSchema.safeParse(values);
 
-    if (!addUserWeightSchemaValid.success) {
-        console.error(addUserWeightSchemaValid.error.format());
-        throw new ValidationError(locale, messages);
-    }
-
-    await db.user.updateMany({
-        where: {
-            id: user.id
-        },
-        data: {
-            ...addUserWeightSchemaValid.data
+    try {
+        if (!addUserWeightSchemaValid.success) {
+            console.error(addUserWeightSchemaValid.error.format());
+            throw new ValidationError(locale, messages);
         }
-    })
 
-    if (isBodyStatsFilled(user)) {
-        createOrUpdateWeightRecord({
-            birthDate: user.birthDate!,
-            gender: user.gender!,
-            activityLevel: user.activityLevel!,
-            goal: user.goal!,
-            height: user.height!,
-            ...addUserWeightSchemaValid.data
-        });
+        await db.user.updateMany({
+            where: {
+                id: user.id
+            },
+            data: {
+                ...addUserWeightSchemaValid.data
+            }
+        })
+
+        if (isBodyStatsFilled(user)) {
+            createOrUpdateWeightRecord({
+                birthDate: user.birthDate!,
+                gender: user.gender!,
+                activityLevel: user.activityLevel!,
+                goal: user.goal!,
+                height: user.height!,
+                ...addUserWeightSchemaValid.data
+            });
+        }
+
+        const updatedUser = await updateUserInSession(values);
+        return { updatedUser, success: t("FillProfilePage.successMessage") };
+    } catch (error) {
+        if (error instanceof Error) {
+            return { error: error.message as string };
+        }
+        return { error: t("Error.unknownError") as string };
     }
-
-    const updatedUser = await updateUserInSession(values);
-    return { updatedUser, success: t("FillProfilePage.successMessage") };
 }

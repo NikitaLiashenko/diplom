@@ -14,28 +14,35 @@ export const register = async (values: RegisterSchemaType) => {
   const locale = await getLocale();
   const messages = await getMessages();
   const t = createTranslator({ locale, messages });
+  
+  try {
+    if (!registerSchemaValid.success) {
+      console.error(registerSchemaValid.error.format());
+      throw new ValidationError(locale, messages);
+    }
 
-  if (!registerSchemaValid.success) {
-    console.error(registerSchemaValid.error.format());
-    throw new ValidationError(locale, messages);
+    const { email, password, name } = registerSchemaValid.data;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const existingUser = await getUserByEmail(email);
+    if (existingUser) {
+      console.error(t("Error.emailInUseServer"), existingUser);
+      throw new ValidationError(locale, messages, "emailInUseClient");
+    }
+
+    await db.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    });
+
+    return { success: t("RegisterPage.successMessage") };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { error: error.message as string };
+    }
+    return { error: t("Error.unknownError") as string };
   }
-
-  const { email, password, name } = registerSchemaValid.data;
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const existingUser = await getUserByEmail(email);
-  if (existingUser) {
-    console.error(t("Error.emailInUseServer"), existingUser);
-    throw new ValidationError(locale, messages, "emailInUseClient");
-  }
-
-  await db.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-    },
-  });
-
-  return { success: t("RegisterPage.successMessage") };
 };

@@ -1,4 +1,3 @@
-import { ForbiddenError, NotFoundError, UnauthorizedError, ValidationError } from '@/error';
 import {
   API_AUTH_PREFIX,
   DEFAULT_LOGIN_REDIRECT,
@@ -9,7 +8,6 @@ import {
 } from "@/routes";
 import NextAuth, { Session } from "next-auth";
 import createMiddleWare from "next-intl/middleware";
-import { NextResponse } from "next/server";
 import authConfig from "./auth.config";
 import { routing } from "./i18n/routing";
 import { isBodyStatsFilled } from "./lib/calories-calculator-util";

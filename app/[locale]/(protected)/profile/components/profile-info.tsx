@@ -59,9 +59,13 @@ const ProfileInfo = () => {
         startTransition(() => {
             editUserProfile(values)
                 .then(async (data) => {
-                    await updateUserSession(data.updatedUser, update, session);
-                    setEditMode(false);
-                    toast.success(t("successOperation"));
+                    if (data.success) {
+                        await updateUserSession(data.updatedUser, update, session);
+                        setEditMode(false);
+                        toast.success(t("successOperation"));
+                    } else {
+                        toast.error(data.error);
+                    }
                 })
                 .catch(err => {
                     console.error(err.message);

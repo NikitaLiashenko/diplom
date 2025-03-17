@@ -15,26 +15,27 @@ export const createMeal = async (mealSchemaBasicValues: MealSchemaBasicType, mea
     const mealSchemaBasicValid = MealSchemaBasic.safeParse(mealSchemaBasicValues);
     const locale = await getLocale();
     const messages = await getMessages();
-
-    if (!mealSchemaBasicValid.success) {
-        console.error(mealSchemaBasicValid.error.format());
-        throw new ValidationError(locale, messages);
-    }
-
-    const mealSchemaFullInfoValid = MealSchemaFullInfo.safeParse(mealSchemaFullInfo);
-    if (!mealSchemaFullInfoValid.success) {
-        console.error(mealSchemaFullInfoValid.error.format());
-        throw new ValidationError(locale, messages);
-    }
-
-    const user = await currentUser();
-
-    const { name, weight } = mealSchemaBasicValid.data;
-    const { time, avgCalories, carbohydrates, fats, proteins } = mealSchemaFullInfoValid.data;
-    const [hours, minutes] = time.split(":").map(Number);
-    date.setHours(hours, minutes, 0, 0);
+    const t = createTranslator({ locale, messages });
 
     try {
+        if (!mealSchemaBasicValid.success) {
+            console.error(mealSchemaBasicValid.error.format());
+            throw new ValidationError(locale, messages);
+        }
+
+        const mealSchemaFullInfoValid = MealSchemaFullInfo.safeParse(mealSchemaFullInfo);
+        if (!mealSchemaFullInfoValid.success) {
+            console.error(mealSchemaFullInfoValid.error.format());
+            throw new ValidationError(locale, messages);
+        }
+
+        const user = await currentUser();
+
+        const { name, weight } = mealSchemaBasicValid.data;
+        const { time, avgCalories, carbohydrates, fats, proteins } = mealSchemaFullInfoValid.data;
+        const [hours, minutes] = time.split(":").map(Number);
+        date.setHours(hours, minutes, 0, 0);
+
         await db.meal.create({
             data: {
                 name,
@@ -48,54 +49,48 @@ export const createMeal = async (mealSchemaBasicValues: MealSchemaBasicType, mea
             },
         });
     } catch (error) {
-        throw error;
+        if (error instanceof Error) {
+            return { error: error.message as string };
+        }
+        console.error(error);
+        return { error: t("Error.unknownError") as string };
     }
 };
 
 export const getMealsByDate = async (date: Date) => {
     const user = await currentUser();
-
-    try {
-        const meals = await db.meal.findMany({
-            where: {
-                date: {
-                    gte: startOfDay(date),
-                    lte: endOfDay(date),
-                },
-                userId: user.id
+    const meals = await db.meal.findMany({
+        where: {
+            date: {
+                gte: startOfDay(date),
+                lte: endOfDay(date),
             },
-            orderBy: {
-                date: "asc"
-            }
-        });
+            userId: user.id
+        },
+        orderBy: {
+            date: "asc"
+        }
+    });
 
-        return meals;
-    } catch (error) {
-        throw error;
-    }
+    return meals;
 }
 
 export const getMealsBetween = async (startDate: Date, endDate: Date) => {
     const user = await currentUser();
-
-    try {
-        const meals = await db.meal.findMany({
-            where: {
-                date: {
-                    gte: startOfDay(startDate),
-                    lte: endOfDay(endDate),
-                },
-                userId: user.id,
+    const meals = await db.meal.findMany({
+        where: {
+            date: {
+                gte: startOfDay(startDate),
+                lte: endOfDay(endDate),
             },
-            orderBy: {
-                date: "asc"
-            }
-        });
+            userId: user.id,
+        },
+        orderBy: {
+            date: "asc"
+        }
+    });
 
-        return meals;
-    } catch (error) {
-        throw error;
-    }
+    return meals;
 }
 
 export const predictCalories = async (mealName: string, weight: number) => {

@@ -175,8 +175,8 @@
     "expiredToken": "Token has expired!",
     "missingToken": "Missing token!",
     "emailNotFound": "User by this email doesn't exists",
-    "emailInUseServer": "User already exists: ",
-    "emailInUseClient": "Something went wrong. Try again later",
+    "emailInUseServer": "User with this email already exists",
+    "emailInUseClient": "User with this email already exists",
     "noSession": "No session"
   },
   "OpenAI": {
@@ -386,7 +386,10 @@
     "timeLabel": "Time",
     "timeDescription": "Specify the time of this meal.",
     "backButtonLabel": "Back",
-    "saveButtonLabel": "Confirm & Save"
+    "saveButtonLabel": "Confirm & Save",
+    "success": "Meal :mealname was successfully created",
+    "error": "Something went wrong. Could't create meal",
+    "caloriesError": "Couldn't predict calories"
   },
   "MealsCalendar": {
     "Legend": {

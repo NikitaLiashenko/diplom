@@ -8,7 +8,6 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { LoginSchema, LoginSchemaType } from "@/schemas/index";
 import { createTranslator } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
-import { revalidatePath } from "next/cache";
 
 export const login = async (loginSchemaValues: LoginSchemaType) => {
   const loginShemaValid = LoginSchema.safeParse(loginSchemaValues);

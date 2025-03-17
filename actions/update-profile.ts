@@ -16,28 +16,35 @@ export const fillProfile = async (values: FillProfileSchemaType) => {
   const messages = await getMessages();
   const t = createTranslator({ locale, messages });
 
-  if (!fillProfileSchemaValid.success) {
-    console.error(fillProfileSchemaValid.error.format());
-    throw new ValidationError(locale, messages);
+  try {
+    if (!fillProfileSchemaValid.success) {
+      console.error(fillProfileSchemaValid.error.format());
+      throw new ValidationError(locale, messages);
+    }
+
+    const { weight, height, gender, activityLevel, birthDate, goal } = fillProfileSchemaValid.data;
+
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        weight,
+        height,
+        gender,
+        activityLevel,
+        birthDate,
+        goal
+      },
+    });
+
+    createOrUpdateWeightRecord(fillProfileSchemaValid.data);
+
+    const updatedUser = await updateUserInSession(values);
+
+    return { updatedUser, success: t("FillProfilePage.successMessage") };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { error: error.message as string };
+    }
+    return { error: t("Error.unknownError") as string };
   }
-
-  const { weight, height, gender, activityLevel, birthDate, goal } = fillProfileSchemaValid.data;
-
-  await db.user.update({
-    where: { id: user.id },
-    data: {
-      weight,
-      height,
-      gender,
-      activityLevel,
-      birthDate,
-      goal
-    },
-  });
-
-  createOrUpdateWeightRecord(fillProfileSchemaValid.data);
-
-  const updatedUser = await updateUserInSession(values);
-
-  return { updatedUser, success: t("FillProfilePage.successMessage") };
 };

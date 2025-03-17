@@ -3,6 +3,7 @@
 import { createMeal, predictCalories } from "@/actions/meals";
 import { CaloriesResponseSchema, MealSchemaBasic, MealSchemaBasicType, MealSchemaFullInfo, MealSchemaFullInfoType } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { createContext, useContext, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -24,6 +25,7 @@ interface MealFormContextType {
 const MealFormContext = createContext<MealFormContextType | undefined>(undefined);
 
 export const MealFormProvider = ({ children }: { children: React.ReactNode; }) => {
+    const t = useTranslations();
     const [step, setStep] = useState(1);
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [isPending, startTransition] = useTransition();
@@ -53,7 +55,7 @@ export const MealFormProvider = ({ children }: { children: React.ReactNode; }) =
             predictCalories(values.name, values.weight)
                 .then((data) => {
                     if (!data) {
-                        throw new Error("Couldn't predict calories"); //TODO: Translate
+                        throw new Error(t("MealFullInfoForm.caloriesError"));
                     }
                     if (data?.error) {
                         console.error(data.error);
@@ -78,13 +80,13 @@ export const MealFormProvider = ({ children }: { children: React.ReactNode; }) =
             try {
                 await createMeal(basicForm.getValues(), fullInfoForm.getValues(), date);
                 setDialogOpen(false);
-                toast.success(`Meal ${basicForm.watch('name')} was successfully created`); //TODO: Translate
+                toast.success(t("MealFullInfoForm.success").replace(":mealname", basicForm.watch('name')));
                 basicForm.reset();
                 fullInfoForm.reset();
                 setStep(1);
             } catch (error) {
                 console.error(error);
-                toast.error("Ошибка при создании блюда"); //TODO: Translate
+                toast.error(t("MealFullInfoForm.error"));
             }
         });
     };
@@ -104,7 +106,7 @@ export const MealFormProvider = ({ children }: { children: React.ReactNode; }) =
 export const useMealForm = () => {
     const context = useContext(MealFormContext);
     if (!context) {
-        throw new Error("useMealForm must be used within a MealFormProvider"); //TODO: Translate
+        throw new Error("useMealForm must be used within a MealFormProvider");
     }
     return context;
 };

@@ -55,8 +55,12 @@ export const FillProfileForm = () => {
     startTransition(() => {
       fillProfile({ ...formStep1.getValues(), ...formStep2.getValues() })
         .then(async (data) => {
-          await updateUserSession(data.updatedUser, update, session);
-          router.push(DEFAULT_LOGIN_REDIRECT);
+          if (data.success) {
+            await updateUserSession(data.updatedUser, update, session);
+            router.push(DEFAULT_LOGIN_REDIRECT);
+          } else {
+            setError(data.error);
+          }
         }).catch((error: Error) => {
           console.error(error);
           setError(error.message);

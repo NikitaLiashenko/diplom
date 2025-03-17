@@ -41,10 +41,14 @@ const AddWeightModal = ({ edit }: AddWeightModalProps) => {
         startTransition(() => {
             addUserWeight(values)
                 .then(async (data) => {
-                    await updateUserSession(data.updatedUser, update, session);
-                    toast.success(t("successOperation"));
-                    router.refresh();
-                    setOpen(false);
+                    if (data.success) {
+                        await updateUserSession(data.updatedUser, update, session);
+                        toast.success(t("successOperation"));
+                        router.refresh();
+                        setOpen(false);
+                    } else {
+                        toast.error(data.error);
+                    }
                 })
                 .catch(err => {
                     console.error(err.message);
